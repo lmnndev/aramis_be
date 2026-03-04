@@ -19,7 +19,7 @@ export const subjects = pgTable('subjects', {
   department_id: integer('department_id').notNull().references(() => departments.id,{onDelete: 'restrict'}),
   name: varchar ('name',{length:255}).notNull(),
   code: varchar ('code',{length:50}).notNull().unique(),
-  description: varchar ('name',{length:255}),
+  description: varchar ('description',{length:255}),
   ...timestamps
 });
 
