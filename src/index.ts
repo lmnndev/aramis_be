@@ -1,13 +1,26 @@
 import express from 'express';
+import cors from 'cors';
 
-import { db } from './db'
+
+
+//custom routes
+import subjectRouter from './routes/subjects'
+
 //new instance
 const app = express();
 const port = 3000;
 
-const router = express.Router();
+//check frontend url exists
+if(!process.env.FRONTEND_URL)
+    throw new Error('Frontend URL is not set on the environment file');
 
-import { departments } from './db/schema'
+//cors setup
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}))
+
 
 //essential middleware function
 app.use(express.json());
@@ -43,21 +56,23 @@ app.get('/', (req, res) => {
     
 // })
 
-router.get('/', async(req,res)=>{
-    const result = await db.select().from(departments);
-    res.json(result); 
-})
+// router.get('/', async(req,res)=>{
+//     const result = await db.select().from(departments);
+//     res.json(result); 
+// })
 
-router.post('/', async (req,res)=>{
-    const {code, name, description} = req.body;
-    if(!code || !name || !description){
-        res.status(400).json({error: "Missing fields"})
-    }
+// router.post('/departments', async (req,res)=>{
+//     const {code, name, description} = req.body;
+//     if(!code || !name || !description){
+//         res.status(400).json({error: "Missing fields"})
+//     }
 
-    const result= await db.insert(departments).values({code,name,description}).returning();
+//     const result= await db.insert(departments).values({code,name,description}).returning();
 
-    res.json(result); 
-})
+//     res.json(result); 
+// })
+
+
 
 // router.put('/:id',(req,res)=>{
 //   const id = Number(req.params.id);
@@ -94,6 +109,6 @@ router.post('/', async (req,res)=>{
 
 
 
-app.use('/api/aramis/departments',router);
+app.use('/api/aramis/subjects',subjectRouter);
 
 app.listen(port, ()=>console.log(`Server is running on http://localhost:${port}`))
