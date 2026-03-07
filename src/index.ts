@@ -10,10 +10,15 @@ import subjectRouter from './routes/subjects'
 const app = express();
 const port = 3000;
 
+//check frontend url exists
+if(!process.env.FRONTEND_URL)
+    throw new Error('Frontend URL is not set on the environment file');
+
 //cors setup
 app.use(cors({
     origin: process.env.FRONTEND_URL,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'] 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
 }))
 
 

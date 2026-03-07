@@ -2,14 +2,20 @@ import { and, desc, eq, getTableColumns, ilike, or, sql } from 'drizzle-orm';
 import { departments, subjects } from '../db/schema';
 import { db } from '../db';
 import express from 'express';
+import { antiSQLinJector } from '../utils/sqlRegex';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
         const { search, department, page = 1, limit = 10} = req.query;
 
-        const currentPage = Math.max(1, +page);
-        const limitPerPage = Math.max(1, +limit);
+
+        //NaN handling: if non numeric values are sent via params
+        //page or limit will produce a NaN
+
+        //limits should be strictly capped
+        const currentPage = Math.max(1, parseInt(String(page), 10)|| 1);
+        const limitPerPage = Math.min(Math.max(1, parseInt(String(limit),10)||10),100);
 
         const offset = (currentPage - 1) * limitPerPage;
 
@@ -26,17 +32,16 @@ router.get('/', async (req, res) => {
         }
 
         //departments filter exists
-                //If search query exists, filter by subject name OR subject code
+        //If search query exists, filter by subject name OR subject code
         if(department){
-            filterConditions.push(
-                    ilike(departments.name, `%${department}%`)
-            )
+                    const deptPattern = `%${antiSQLinJector(String(department))}%`;
+                    filterConditions.push(ilike(departments.name, deptPattern))       
         }
 
         //combine all filters  using AND if any exists
         const whereClause = filterConditions.length > 0 ? and(...filterConditions):undefined;
         const countResult = await db
-        .select({count: sql<number>`count(*)`})
+        .select({count: sql<number>`count(*)`.mapWith(Number)})
         .from(subjects)
         .leftJoin(departments, eq(subjects.department_id, departments.id))
         .where(whereClause)
