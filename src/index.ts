@@ -1,6 +1,7 @@
 import express from 'express';
+import cors from 'cors';
 
-import { db } from './db'
+
 
 //custom routes
 import subjectRouter from './routes/subjects'
@@ -8,6 +9,12 @@ import subjectRouter from './routes/subjects'
 //new instance
 const app = express();
 const port = 3000;
+
+//cors setup
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'] 
+}))
 
 
 //essential middleware function
