@@ -1,10 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 
+//ARCJET
+
 
 
 //custom routes
 import subjectRouter from './routes/subjects'
+import securityMiddleware from './middleware/security';
 
 //new instance
 const app = express();
@@ -24,6 +27,9 @@ app.use(cors({
 
 //essential middleware function
 app.use(express.json());
+
+//security middleware: Arcjet
+app.use(securityMiddleware)
 
 //middleware
 //simply logsout
