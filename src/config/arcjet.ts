@@ -1,11 +1,11 @@
 import arcjet, { shield, detectBot, tokenBucket, slidingWindow } from "@arcjet/node";
 import { isSpoofedBot } from "@arcjet/inspect";
 
-if(!process.env.ARCJET_KEY && process.env.ARCJET_ENV !== 'test'){
+if(!process.env.ARCJET_KEY && process.env.NODE_ENV !== 'test'){
     throw new Error('ARCJET_KEY env is required')
 }
 
-export const aj =  arcjet({
+const aj =  arcjet({
   // Get your site key from https://app.arcjet.com and set it as an environment
   // variable rather than hard coding.
   key: process.env.ARCJET_KEY!,
@@ -31,3 +31,5 @@ export const aj =  arcjet({
     })
   ],
 });
+
+export default aj;
