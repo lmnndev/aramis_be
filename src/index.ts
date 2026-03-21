@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-
-
+import { toNodeHandler } from 'better-auth/node';
+import { auth } from './lib/auth'
 
 //custom routes
 import subjectRouter from './routes/subjects'
@@ -9,6 +9,7 @@ import subjectRouter from './routes/subjects'
 //new instance
 const app = express();
 const port = 3000;
+
 
 //check frontend url exists
 if(!process.env.FRONTEND_URL)
@@ -20,6 +21,10 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }))
+
+
+//better-auth mount handler
+app.all('/api/auth/*splat', toNodeHandler(auth));
 
 
 //essential middleware function
