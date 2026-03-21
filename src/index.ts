@@ -3,8 +3,10 @@ import cors from 'cors';
 import { toNodeHandler } from 'better-auth/node';
 import { auth } from './lib/auth'
 
+
 //custom routes
 import subjectRouter from './routes/subjects'
+import securityMiddleware from './middleware/security';
 
 //new instance
 const app = express();
@@ -29,6 +31,9 @@ app.all('/api/auth/*splat', toNodeHandler(auth));
 
 //essential middleware function
 app.use(express.json());
+
+//security middleware: Arcjet
+app.use(securityMiddleware)
 
 //middleware
 //simply logsout
