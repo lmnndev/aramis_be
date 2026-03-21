@@ -1,12 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-
-//ARCJET
-
-
+import { toNodeHandler } from 'better-auth/node';
+import { auth } from './lib/auth'
 
 //custom routes
 import subjectRouter from './routes/subjects'
+//ARCJET
 import securityMiddleware from './middleware/security';
 
 //new instance
@@ -23,6 +22,9 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }))
+
+//better-auth mount handler
+app.all("/api/auth/*splat", toNodeHandler(auth));
 
 
 //essential middleware function
