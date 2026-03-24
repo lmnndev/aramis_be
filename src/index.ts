@@ -8,9 +8,9 @@ import { toNodeHandler } from 'better-auth/node';
 import { auth } from './lib/auth'
 
 //custom routes
-import subjectRouter from './routes/subjects'
+import subjectRouter from './routes/subjects.js'
 //ARCJET
-import securityMiddleware from './middleware/security';
+import securityMiddleware from './middleware/security.js';
 
 //new instance
 const app = express();
