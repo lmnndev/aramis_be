@@ -10,6 +10,7 @@
 
     /* Project structure */
 
+    "rootDir": "src",
     "outDir": "dist",
 
     /* Type safety */
@@ -30,5 +31,5 @@
     /* Environment types */
     "types": ["node"]
   },
-  "include": ["src","drizzle.config.ts"]
+  "include": ["src"]
 }
