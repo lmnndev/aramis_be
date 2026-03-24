@@ -9,6 +9,7 @@ import { auth } from './lib/auth.js'
 
 //custom routes
 import subjectRouter from './routes/subjects.js'
+import userRouter from './routes/user.js'
 //ARCJET
 import securityMiddleware from './middleware/security.js';
 
@@ -121,6 +122,7 @@ app.get('/', (req, res) => {
 
 
 
-app.use('/api/aramis/subjects',subjectRouter);
+app.use('/api/subjects',subjectRouter);
+app.use('/api/users',userRouter);
 
 app.listen(port, ()=>console.log(`Server is running on http://localhost:${port}`))
