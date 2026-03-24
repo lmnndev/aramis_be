@@ -10,7 +10,7 @@
 
     /* Project structure */
 
-    "rootDir": "src",
+
     "outDir": "dist",
 
     /* Type safety */
