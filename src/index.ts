@@ -10,6 +10,7 @@ import { auth } from './lib/auth.js'
 //custom routes
 import subjectRouter from './routes/subjects.js'
 import userRouter from './routes/user.js'
+import classesRouter from './routes/classes.js'
 //ARCJET
 import securityMiddleware from './middleware/security.js';
 
@@ -49,80 +50,13 @@ app.use((req,res,next)=> {
 })
 
 
-
 app.get('/', (req, res) => {
     res.send('Hello from the CARS API')
 })
 
-// router.get('/:id',(req,res)=>{
-//     //everything we get from the params are string
-//     const id = Number(req.params.id);
-
-//     const car = cars.find((car)=> car.id === id);
-
-//     if(!car){
-//         return res.status(404).send('Car not found')
-//     }
-
-//     res.json(car)
-
-    
-// })
-
-// router.get('/', async(req,res)=>{
-//     const result = await db.select().from(departments);
-//     res.json(result); 
-// })
-
-// router.post('/departments', async (req,res)=>{
-//     const {code, name, description} = req.body;
-//     if(!code || !name || !description){
-//         res.status(400).json({error: "Missing fields"})
-//     }
-
-//     const result= await db.insert(departments).values({code,name,description}).returning();
-
-//     res.json(result); 
-// })
-
-
-
-// router.put('/:id',(req,res)=>{
-//   const id = Number(req.params.id);
-//   const car = cars.find(car => car.id === id);
-
-//   if (!car) {
-//     return res.status(404).send('Car not found');
-//   }
-
-//   const allowedFields = ['make', 'model', 'year', 'price'];
-
-//   allowedFields.forEach(field => {
-//     if (req.body[field] !== undefined) {
-//       car[field] = req.body[field];
-//     }
-//   });
-
-//   res.json(car);
-// })
-
-// router.delete('/:id',(req,res)=>{
-//     const id = Number(req.params.id);
-//     const index = cars.findIndex((car)=>car.id===id);
-
-//     if(index===-1){
-//         res.status(404).json({error:"Car not found"})
-//     }
-
-//     const deleted = cars.splice(index, 1)[0];
-//     res.status(201).json({message:"Car Deleted", details: deleted})
-// })
-
-
-
-
 
 app.use('/api/subjects',subjectRouter);
 app.use('/api/users',userRouter);
+app.use('/api/classes', classesRouter);
 
 app.listen(port, ()=>console.log(`Server is running on http://localhost:${port}`))

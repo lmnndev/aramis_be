@@ -22,7 +22,9 @@ const securityMiddleware = async (req: Request, res: Response, next: NextFunctio
                 message = 'User request limit exceeded(10 per minute). Please wait.';
                 break;
             default:
-                limit = 5
+                //adjusted this to 8 based on the behavior of frontend
+                //will change this later on for enhancement
+                limit = 8
                 message = 'Guest request limit exceeded(5 per minute). Please wait.';
         }   
 
@@ -46,13 +48,14 @@ const securityMiddleware = async (req: Request, res: Response, next: NextFunctio
 
         const decision = await client.protect(arcjetRequest);
 
-        if(decision.isDenied() && decision.reason.isBot()){
-            return res
-            .status(403)
-            .json({
-                error: 'Forbidden', 
-                message: 'Automated requests are not allowed.'})
-        }
+        //**************POSTMAN BLOCKER*******************/
+        // if(decision.isDenied() && decision.reason.isBot()){
+        //     return res
+        //     .status(403)
+        //     .json({
+        //         error: 'Forbidden', 
+        //         message: 'Automated requests are not allowed.'})
+        // }
 
         if(decision.isDenied() && decision.reason.isShield()){
             return res
