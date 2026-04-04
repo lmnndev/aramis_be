@@ -13,19 +13,19 @@ const securityMiddleware = async (req: Request, res: Response, next: NextFunctio
 
         switch(role){
             case "admin":
-                limit = 20;
-                message = 'Admin request limit exceeded(20 per minute). Slow down';
+                limit = 40;
+                message = 'Admin request limit exceeded(30 per minute). Slow down';
                 break;
             case "teacher":
             case "student":
-                limit = 10;
-                message = 'User request limit exceeded(10 per minute). Please wait.';
+                limit = 30;
+                message = 'User request limit exceeded(20 per minute). Please wait.';
                 break;
             default:
                 //adjusted this to 8 based on the behavior of frontend
                 //will change this later on for enhancement
-                limit = 8
-                message = 'Guest request limit exceeded(5 per minute). Please wait.';
+                limit = 20;
+                message = 'Guest request limit exceeded(10 per minute). Please wait.';
         }   
 
         //New arcjet client
